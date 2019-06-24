@@ -13,7 +13,7 @@ Word.prototype.toString = function() {
     letters.push(this.letterArr[i].showValue());
   }
 
-  return letters.join("");
+  return letters.join(" ");
 };
 
 Word.prototype.updateGuessed = function(char) {
