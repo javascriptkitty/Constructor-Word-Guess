@@ -3,14 +3,14 @@ var inquirer = require("inquirer");
 
 var categories = {
   animals: [
-    "antelope"
-    // "kangaroo",
-    // "rooster",
-    // "octopus",
-    // "ostrich",
-    // "squirrel",
-    // "capybara",
-    // "hedgehog"
+    "antilope",
+    "kangaroo",
+    "rooster",
+    "octopus",
+    "ostrich",
+    "squirrel",
+    "capybara",
+    "hedgehog"
   ],
   food: [
     "cheesecake",
@@ -50,16 +50,12 @@ function getRandom(arr) {
 
 var randomWord;
 var newWord;
-var count = 0;
 var guessesLeft;
-var randomWord;
 
 function reset() {
-  count = 0;
   guessesLeft = 12;
-  randomWord = "word";
 
-  inquirer
+  return inquirer
     .prompt({
       type: "list",
       name: "usersChoice",
@@ -74,7 +70,7 @@ function reset() {
     .then(askUser);
 }
 
-var askUser = function() {
+function askUser() {
   if (guessesLeft > 0) {
     return inquirer
       .prompt({
@@ -82,32 +78,34 @@ var askUser = function() {
         name: "usersGuess",
         message: "Guess a letter!",
         validate: function validateInput(name) {
-          return name !== "";
+          return name.length == 1;
         }
       })
       .then(function(guess) {
-        if (randomWord.indexOf(guess.usersGuess) != -1) {
-          newWord.updateGuessed(guess.usersGuess);
+        guess = guess.usersGuess.toLowerCase();
+        if (randomWord.indexOf(guess) != -1) {
+          newWord.updateGuessed(guess);
           var newWordStr = newWord.toString();
-          console.log(newWordStr);
+          console.log("\n" + newWordStr + "\n");
           if (newWordStr.indexOf("_") == -1) {
-            console.log("You got it right! Next word!");
-            reset();
+            console.log("You got it right! Nexst word! \n");
+            return reset();
           } else {
-            console.log("CORRECT!");
+            console.log("CORRECT! \n");
           }
         } else {
-          console.log("INCORRECT!");
+          console.log("INCORRECT! \n");
           guessesLeft = guessesLeft - 1;
-          console.log(newWord.toString());
-          console.log(guessesLeft + " guesses remaining!");
+          console.log(newWord.toString() + "\n");
+          console.log(guessesLeft + " guesses remaining! \n");
         }
-        count++;
+
         return askUser();
       });
   } else {
-    console.log("YOU LOST! THE WORD IS " + randomWord);
+    console.log("YOU LOST! THE WORD IS " + randomWord + "\n");
+    reset();
   }
-};
+}
 
 reset();
