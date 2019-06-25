@@ -104,8 +104,17 @@ function askUser() {
       });
   } else {
     console.log("YOU LOST! THE WORD IS " + randomWord + "\n");
-    reset();
+    inquirer
+      .prompt({
+        type: "confirm",
+        name: "playAgain",
+        message: "Would you like to play again?"
+      })
+      .then(function(answer) {
+        if (answer.playAgain) {
+          reset();
+        }
+      });
   }
 }
-
 reset();
